@@ -1,0 +1,47 @@
+int pbutton=8;
+int pbutton1=9;
+int relay=7;
+
+
+int val=0;
+int relayon=0;
+
+int pushed=0;
+
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(pbutton, INPUT_PULLUP);
+  pinMode(relay, OUTPUT);
+  
+  
+}
+
+void loop() 
+{
+  val=digitalRead(pbutton)|| val;
+  if(val==HIGH && relayon==LOW)
+  {
+    pushed=1-pushed;
+    delay(100);
+  }
+
+  relayon=val;
+  if(pushed==HIGH)
+  {
+    Serial.println("relay on");
+    
+    digitalWrite(relay , LOW);
+    
+  }
+  
+  else
+  {
+    Serial.println("relay off");
+    
+    digitalWrite(relay, HIGH);
+    
+  }
+
+  
+}
