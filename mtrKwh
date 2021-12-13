@@ -1,0 +1,108 @@
+#include  <PZEM004Tv30.h>
+
+// Kirim ke apps blnyk
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>
+
+
+char auth[] = "okI9K-_sFk40ECQxfeYJ-xsnlujdtMFO";
+
+// smbungkan ke wifi
+char ssid[] = "Ayu Lestari";
+//password ssid
+char pass[] = "ayubay73";
+
+
+//inisail
+
+PZEM004Tv30 pzem(12, 13);// 12= d6 (rx) 13 = d7  (tx)
+
+float Power, Energy, Voltase, Current;
+
+
+
+void setup() {
+  // serial monitor
+  Serial.begin(9600); // membaca di serial port
+  // koneksi ki wifi
+
+  Blynk.begin(auth, ssid, pass);
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+
+  // Baca Nilai Power (kW)
+
+  Power = pzem.power();//
+
+  if (isnan(Power)) {
+    Serial.println("Gagal Baca Power");
+  }
+  else
+  {
+    Serial.print("Power :");
+    Serial.print(Power);
+    Serial.println("KW");
+  }
+  //=========================//
+  //Energ Bagian ke 2
+
+  Energy = pzem.energy();//
+  if (isnan(Energy)) {
+
+    Serial.println("Gagal Baca Energy");
+  }
+  else
+  {
+    Serial.print("Energy :");
+    Serial.print(Energy);
+    Serial.println("kWh");
+  }
+  //==============================///
+
+  //cek
+  Voltase = pzem.voltage(); //
+  if (isnan(Voltase)) {
+
+    Serial.println("Gagal Baca Voltase ");
+  }
+  else
+  {
+    Serial.print("Voltase  :");
+    Serial.print(Voltase);
+    Serial.println("V");
+  }
+  //============================///
+
+  Current = pzem.current(); //
+  if (isnan(Current)) {
+
+    Serial.println("Gagal Baca Kuat Arus ");
+  }
+  else
+  {
+    Serial.print("Kuat Arus  :");
+    Serial.print(Current);
+    Serial.println("A");
+  }
+
+
+  Serial.println();
+  // kirim delay ke system
+  // untuk data ke V0 ==> power
+  // untuk data ke V1 ==> Enegy
+  // untuk data ke V2 ==> Voltase
+  // untuk data ke V3 ==> Current (A)
+
+  Blynk.virtualWrite(V0, Power);
+  Blynk.virtualWrite(V1, Energy);
+  Blynk.virtualWrite(V2, Voltase);
+  Blynk.virtualWrite(V3, Current);
+
+  Blynk.run();
+
+
+  delay(1000);
