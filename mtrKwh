@@ -8,9 +8,9 @@
 char auth[] = "okI9K-_sFk40ECQxfeYJ-xsnlujdtMFO";
 
 // smbungkan ke wifi
-char ssid[] = "Ayu Lestari";
+char ssid[] = "ssidBotak";
 //password ssid
-char pass[] = "ayubay73";
+char pass[] = "xxxyyy";
 
 
 //inisail
